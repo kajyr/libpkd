@@ -22,5 +22,8 @@
     "gulp-coffee": "^2.3.1",
     "gulp-concat": "^2.6.0",
     "gulp-util": "^3.0.6"
+  },
+  "dependencies": {
+    "fs-promise": "^0.3.1"
   }
 }
