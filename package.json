@@ -2,7 +2,7 @@
   "name": "libpkd",
   "version": "1.0.4",
   "description": "Lib to handle pkd files",
-  "main": "GulpFile.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
