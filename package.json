@@ -1,0 +1,26 @@
+{
+  "name": "libpkd",
+  "version": "1.0.0",
+  "description": "Lib to handle pkd files",
+  "main": "GulpFile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kajyr/libpkd.git"
+  },
+  "keywords": [],
+  "author": "Carlo 'kajyr' <carlo.panzi@gmail.com> (http://kajyr.github.io/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kajyr/libpkd/issues"
+  },
+  "homepage": "https://github.com/kajyr/libpkd#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-coffee": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-util": "^3.0.6"
+  }
+}
