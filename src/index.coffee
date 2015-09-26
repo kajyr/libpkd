@@ -26,8 +26,13 @@ readFile = (file) ->
 
 readFiles = (array_of_files) -> multiplex(array_of_files, readFile)
 
+findFiles = (folder) ->
+	fsp.readdir(folder)
+		.then((files) -> files.filter( (name) -> return name.match(/\.[json|pkdata]/)? ) )
+
 module.exports = {
 	
+	findFiles
 	readFiles
 	readFile
 	

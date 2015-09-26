@@ -1,5 +1,5 @@
 (function() {
-  var decompress, fsp, multiplex, readFile, readFiles, readJsonFile, readZipFile, zlib;
+  var decompress, findFiles, fsp, multiplex, readFile, readFiles, readJsonFile, readZipFile, zlib;
 
   fsp = require('fs-promise');
 
@@ -49,7 +49,16 @@
     return multiplex(array_of_files, readFile);
   };
 
+  findFiles = function(folder) {
+    return fsp.readdir(folder).then(function(files) {
+      return files.filter(function(name) {
+        return name.match(/\.[json|pkdata]/) != null;
+      });
+    });
+  };
+
   module.exports = {
+    findFiles: findFiles,
     readFiles: readFiles,
     readFile: readFile
   };
