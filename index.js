@@ -34,7 +34,7 @@
 
   encode = function(json) {
     return new Promise(function(resolve, reject) {
-      return zlib.gzip(json_data, function(err, buf) {
+      return zlib.gzip(json, function(err, buf) {
         return resolve(buf);
       });
     });
@@ -70,7 +70,7 @@
       doEncode = true;
     }
     if (doEncode) {
-      return encode.then(function(encodedData) {
+      return encode(data).then(function(encodedData) {
         return fsp.writeFile(file, encodedData);
       });
     } else {

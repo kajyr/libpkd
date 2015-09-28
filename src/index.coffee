@@ -16,7 +16,7 @@ decode = (data) ->
 	)
 
 encode = (json) ->
-	new Promise (resolve, reject) -> zlib.gzip(json_data, (err, buf) -> resolve(buf))
+	new Promise (resolve, reject) -> zlib.gzip(json, (err, buf) -> resolve(buf))
 
 readZipFile = (file) ->
 	fsp.readFile(file)
@@ -35,7 +35,7 @@ findFiles = (folder) ->
 
 writeFile = (file, data, doEncode = true) ->
 	if doEncode
-		return encode.then( (encodedData) -> fsp.writeFile(file, encodedData ) )
+		return encode(data).then( (encodedData) -> fsp.writeFile(file, encodedData ) )
 	else
 		return fsp.writeFile(file, data, 'utf8')
 	
