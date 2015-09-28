@@ -8,16 +8,20 @@ readJsonFile = (file) ->
 		.readFile(file, {encoding:'utf8'})
 		.then(JSON.parse)
 
-decompress = (data) ->
+decode = (data) ->
 	new Promise( (resolve, reject) ->
 		zlib.gunzip(data, (err, buf) ->
 			return resolve buf.toString()
 		)
 	)
 
+encode = (json) ->
+	new Promise (resolve, reject) -> zlib.gzip(json_data, (err, buf) -> resolve(buf))
+
+
 readZipFile = (file) ->
 	fsp.readFile(file)
-	.then(decompress)
+	.then(decode)
 	.then(JSON.parse)
 
 readFile = (file) -> 
@@ -35,5 +39,6 @@ module.exports = {
 	findFiles
 	readFiles
 	readFile
+	encode
 	
 }
