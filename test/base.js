@@ -9,5 +9,7 @@ exports.basicWrite = function(test) {
 
 	var str = JSON.stringify(json, null, 2);
 
-	libpkd.writeFile('fixture/basicWrite', str, false);
+	libpkd.writeFile('./test/fixture/basicWrite', str, false).then(function() {
+		test.done();
+	})
 };
