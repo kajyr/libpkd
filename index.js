@@ -1,5 +1,5 @@
 (function() {
-  var decompress, findFiles, fsp, multiplex, readFile, readFiles, readJsonFile, readZipFile, zlib;
+  var decode, encode, findFiles, fsp, multiplex, readFile, readFiles, readJsonFile, readZipFile, writeFile, zlib;
 
   fsp = require('fs-promise');
 
@@ -24,7 +24,7 @@
     }).then(JSON.parse);
   };
 
-  decompress = function(data) {
+  decode = function(data) {
     return new Promise(function(resolve, reject) {
       return zlib.gunzip(data, function(err, buf) {
         return resolve(buf.toString());
@@ -32,8 +32,16 @@
     });
   };
 
+  encode = function(json) {
+    return new Promise(function(resolve, reject) {
+      return zlib.gzip(json_data, function(err, buf) {
+        return resolve(buf);
+      });
+    });
+  };
+
   readZipFile = function(file) {
-    return fsp.readFile(file).then(decompress).then(JSON.parse);
+    return fsp.readFile(file).then(decode).then(JSON.parse);
   };
 
   readFile = function(file) {
@@ -57,10 +65,25 @@
     });
   };
 
+  writeFile = function(file, data, doEncode) {
+    if (doEncode == null) {
+      doEncode = true;
+    }
+    if (doEncode) {
+      return encode.then(function(encodedData) {
+        return fsp.writeFile(file, encodedData);
+      });
+    } else {
+      return fsp.writeFile(file, data, 'utf8');
+    }
+  };
+
   module.exports = {
     findFiles: findFiles,
     readFiles: readFiles,
-    readFile: readFile
+    readFile: readFile,
+    writeFile: writeFile,
+    encode: encode
   };
 
 }).call(this);
