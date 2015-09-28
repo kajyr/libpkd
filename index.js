@@ -1,11 +1,11 @@
 (function() {
-  var decode, encode, findFiles, fsp, multiplex, readFile, readFiles, readJsonFile, readZipFile, writeFile, zlib;
+  var _multiplex, _stringify, decode, encode, findFiles, fsp, readFile, readFiles, readJsonFile, readZipFile, writeFile, zlib;
 
   fsp = require('fs-promise');
 
   zlib = require('zlib');
 
-  multiplex = function(array, fn) {
+  _multiplex = function(array, fn) {
     var item;
     return Promise.all((function() {
       var i, len, results;
@@ -16,6 +16,10 @@
       }
       return results;
     })());
+  };
+
+  _stringify = function(json) {
+    return JSON.stringify(json, null, 2);
   };
 
   readJsonFile = function(file) {
@@ -54,7 +58,7 @@
   };
 
   readFiles = function(array_of_files) {
-    return multiplex(array_of_files, readFile);
+    return _multiplex(array_of_files, readFile);
   };
 
   findFiles = function(folder) {
@@ -65,16 +69,18 @@
     });
   };
 
-  writeFile = function(file, data, doEncode) {
+  writeFile = function(file, json, doEncode) {
+    var str;
     if (doEncode == null) {
       doEncode = true;
     }
+    str = _stringify(json);
     if (doEncode) {
-      return encode(data).then(function(encodedData) {
+      return encode(str).then(function(encodedData) {
         return fsp.writeFile(file, encodedData);
       });
     } else {
-      return fsp.writeFile(file, data, 'utf8');
+      return fsp.writeFile(file, str, 'utf8');
     }
   };
 
