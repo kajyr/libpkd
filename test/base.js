@@ -31,3 +31,22 @@ exports.compressedRW = function(test) {
 		});
 	});
 };
+
+exports.findFiles = function(test) {
+
+	var folder = './test/fixtures';
+
+	libpkd.findFiles(folder).then(function(files) {
+		test.equals(2, files.length);
+		test.done();
+	});
+};
+exports.findFilesFiltered = function(test) {
+
+	var folder = './test/fixtures';
+
+	libpkd.findFiles(folder, /\d{8}\./).then(function(files) {
+		test.equals(1, files.length);
+		test.done();
+	})
+};

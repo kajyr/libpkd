@@ -26,9 +26,10 @@ readFile = (file) ->
 
 readFiles = (array_of_files) -> _multiplex(array_of_files, readFile)
 
-findFiles = (folder) ->
+findFiles = (folder, filter = /\.[json|pkdata]/) ->
 	fsp.readdir(folder)
-		.then((files) -> files.filter( (name) -> return name.match(/\.[json|pkdata]/)? ) )
+		.then((files) -> files.filter( (name) -> name.match(filter)? ) )
+		.then((files) -> files.map( (name) -> "#{folder}/#{name}" ))
 
 writeFile = (file, json, doEncode = true) ->
 	str = _stringify(json)

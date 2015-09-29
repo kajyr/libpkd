@@ -61,10 +61,17 @@
     return _multiplex(array_of_files, readFile);
   };
 
-  findFiles = function(folder) {
+  findFiles = function(folder, filter) {
+    if (filter == null) {
+      filter = /\.[json|pkdata]/;
+    }
     return fsp.readdir(folder).then(function(files) {
       return files.filter(function(name) {
-        return name.match(/\.[json|pkdata]/) != null;
+        return name.match(filter) != null;
+      });
+    }).then(function(files) {
+      return files.map(function(name) {
+        return folder + "/" + name;
       });
     });
   };
