@@ -37,8 +37,10 @@
   };
 
   encode = function(json) {
+    var str;
+    str = _stringify(json);
     return new Promise(function(resolve, reject) {
-      return zlib.gzip(json, function(err, buf) {
+      return zlib.gzip(str, function(err, buf) {
         return resolve(buf);
       });
     });
@@ -77,13 +79,11 @@
   };
 
   writeFile = function(file, json, doEncode) {
-    var str;
     if (doEncode == null) {
       doEncode = true;
     }
-    str = _stringify(json);
     if (doEncode) {
-      return encode(str).then(function(encodedData) {
+      return encode(json).then(function(encodedData) {
         return fsp.writeFile(file, encodedData);
       });
     } else {

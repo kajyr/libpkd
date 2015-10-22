@@ -13,14 +13,15 @@ decode = (data) ->
 	new Promise (resolve, reject) -> zlib.gunzip(data, (err, buf) -> resolve buf.toString() )
 
 encode = (json) ->
-	new Promise (resolve, reject) -> zlib.gzip(json, (err, buf) -> resolve buf )
+	str = _stringify(json)
+	new Promise (resolve, reject) -> zlib.gzip(str, (err, buf) -> resolve buf )
 
 readZipFile = (file) ->
 	fsp.readFile(file)
 	.then(decode)
 	.then(JSON.parse)
 
-readFile = (file) -> 
+readFile = (file) ->
 	return readJsonFile(file) if file.match(/json$/)
 	return readZipFile(file) if file.match(/pkdata$/)
 
@@ -32,19 +33,18 @@ findFiles = (folder, filter = /\.[json|pkdata]/) ->
 		.then((files) -> files.map( (name) -> "#{folder}/#{name}" ))
 
 writeFile = (file, json, doEncode = true) ->
-	str = _stringify(json)
 	if doEncode
-		return encode(str).then( (encodedData) -> fsp.writeFile(file, encodedData ) )
+		return encode(json).then( (encodedData) -> fsp.writeFile(file, encodedData ) )
 	else
 		return fsp.writeFile(file, str, 'utf8')
-	
+
 
 module.exports = {
-	
+
 	findFiles
 	readFiles
 	readFile
 	writeFile
 	encode
-	
+
 }
