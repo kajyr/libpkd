@@ -1,6 +1,6 @@
 {
   "name": "libpkd",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Lib to handle pkd files",
   "main": "index.js",
   "scripts": {
