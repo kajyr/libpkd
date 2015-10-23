@@ -36,7 +36,7 @@ writeFile = (file, json, doEncode = true) ->
 	if doEncode
 		return encode(json).then( (encodedData) -> fsp.writeFile(file, encodedData ) )
 	else
-		return fsp.writeFile(file, str, 'utf8')
+		return fsp.writeFile(file, _stringify(json), 'utf8')
 
 
 module.exports = {

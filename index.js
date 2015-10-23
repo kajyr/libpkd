@@ -87,7 +87,7 @@
         return fsp.writeFile(file, encodedData);
       });
     } else {
-      return fsp.writeFile(file, str, 'utf8');
+      return fsp.writeFile(file, _stringify(json), 'utf8');
     }
   };
 
